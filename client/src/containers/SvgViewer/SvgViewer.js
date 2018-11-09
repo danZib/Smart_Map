@@ -21,7 +21,8 @@ class SvgViewer extends Component {
     openPanoramaViewer: false,
     photoSphere: {},
     loading: false,
-    levels: []
+    levels: [],
+    routeCoordinates: []
   }
 
   // General /////////////////////////////////////////////////////////
@@ -52,7 +53,7 @@ class SvgViewer extends Component {
     const selectedSpace = this.initSelectedSpace();
     const currentLocation = this.initCurrentLocation();
 
-     this.setState({floor: {'level': NaN, 'elements': [], 'viewBox': []}, currentLocation: currentLocation, selectedSpace: selectedSpace, openSidebar: false});
+     this.setState({floor: {'level': NaN, 'elements': [], 'viewBox': []}, currentLocation: currentLocation, selectedSpace: selectedSpace, openSidebar: false, routeCoordinates: []});
   }
 
   getSpacePanorama() {
@@ -97,7 +98,11 @@ class SvgViewer extends Component {
 
   showCurrentLocationHandler = (e) => {
     this.setState((prevState) => {
-      const newCurrentLocation = this.initCurrentLocation(true, 1.5, 16.0)
+      let newCurrentLocation = this.initCurrentLocation(false)
+      if (!prevState.currentLocation.show){
+        // TODO a call to database
+        newCurrentLocation = this.initCurrentLocation(true, 1.5, 16.0)
+      }
       return {currentLocation: newCurrentLocation}
     })
   }
@@ -127,9 +132,12 @@ class SvgViewer extends Component {
     this.setState({openPanoramaViewer: !this.state.openPanoramaViewer, photoSphere: newPhotoSphere})
   }
 
-  close3DViewerHandler = () => {
-    this.setState({openModelViewer: false})
+  viewSpaceRouteHandler = (e) => {
+    this.setState((prevState) => {
+      return {routeCoordinates: [{'x': 1.5, 'y': 16.0}, {'x': 3.5, 'y': 16.0}, {'x': 3.5, 'y': 12.0}]}
+    })
   }
+
 
   closePanoramaViewerHandler = () => {
     this.setState({openPanoramaViewer: false})
@@ -138,7 +146,7 @@ class SvgViewer extends Component {
   // Render //////////////////////////////////////////////////////////
   render() {
 
-    const {floor, openSidebar, selectedSpace, photoSphere, openPanoramaViewer, loading, levels, currentLocation}  = {...this.state};
+    const {floor, openSidebar, selectedSpace, photoSphere, openPanoramaViewer, loading, levels, currentLocation, routeCoordinates}  = {...this.state};
 
     let spinner = null;
 
@@ -163,7 +171,8 @@ class SvgViewer extends Component {
       spaceSidebarContent = (
         <SpaceInfo
           space={selectedSpace}
-          handleSpacePanoramaClick={this.viewSpacePanoramaHandler}/>
+          handleSpacePanoramaClick={this.viewSpacePanoramaHandler}
+          handleSpaceRouteClick={this.viewSpaceRouteHandler}/>
       );
     }
 
@@ -183,7 +192,8 @@ class SvgViewer extends Component {
           svgLayers={svgLayers}
           handleClickOnSpace={this.selectSpaceHandler}
           selectedSpaceId={selectedSpace ? selectedSpace.globalId : ''}
-          currentLocation={currentLocation}/>
+          currentLocation={currentLocation}
+          routeCoordinates={routeCoordinates}/>
         <FloorControl
           floorLevels={levels}
           activeLevel={floor['level']}

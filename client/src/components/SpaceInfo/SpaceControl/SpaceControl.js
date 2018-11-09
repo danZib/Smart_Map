@@ -5,14 +5,15 @@ import styles from './SpaceControl.css';
 const spaceControl = (props) => {
 
   const panoramaClickHandler = (e) => props.handlePanoramaClick(e)
+  const routeClickHandler = (e) => props.handleRouteClick(e)
 
   return (
     <div className = {styles.SpaceControl}>
 
       <PanelButton
-        isDisabled={true}
         iconName={"fa/tasks"}
-        text={"Safe Route"}/>
+        text={"Safe Route"}
+        click={routeClickHandler}/>
       <PanelButton
         isDisabled={true}
         iconName={"fa/database"}

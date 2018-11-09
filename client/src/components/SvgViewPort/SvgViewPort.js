@@ -3,10 +3,13 @@ import SvgIfcElement from '../../components/SvgIfcElement/SvgIfcElement';
 import SvgLayer from '../SvgLayer/SvgLayer';
 import styles from './SvgViewPort.css';
 import SvgCircle from '../SvgCircle/SvgCircle';
+import SvgArrow from '../SvgArrow/SvgArrow';
 
 class SvgViewPort extends Component {
 
   render(){
+
+    const {selectedSpaceId, routeCoordinates}  = {...this.props};
     const viewBox = this.props.viewBox.join(',');
 
     const svgLayers = Object.keys(this.props.svgLayers).map((layerType) => {
@@ -16,7 +19,7 @@ class SvgViewPort extends Component {
         const classes = [ifcElement.ifc_type.slice().replace('Ifc', '')];
 
         // Find a more effective way of specifically rendering a certain room
-        if (ifcElement.global_id === this.props.selectedSpaceId) {
+        if (ifcElement.global_id === selectedSpaceId) {
           classes.push('SelectedSpace')
         }
         if (this.props.svgLayers[layerType]['isTransparent'] && !(this.props.svgLayers[layerType]['exceptions'].includes(ifcElement.global_id))) {
@@ -52,6 +55,30 @@ class SvgViewPort extends Component {
         </SvgLayer>
       )
     }
+
+    if (routeCoordinates.length > 0) {
+      const svgArrows = []
+      for(let i = 0; i < routeCoordinates.length - 1; i++){
+        svgArrows.push(
+          <SvgArrow
+          key={i}
+          x0={routeCoordinates[i].x}
+          y0={routeCoordinates[i].y}
+          x1={routeCoordinates[i + 1].x}
+          y1={routeCoordinates[i + 1].y}
+          color='red'/>
+        )
+      }
+      svgLayers.push(
+        <SvgLayer
+          key="path"
+          styleClass=''
+          isTransparent={false}>
+          {svgArrows}
+        </SvgLayer>
+      )
+    }
+
     return (
       <svg
         className={styles.SvgViewPort}

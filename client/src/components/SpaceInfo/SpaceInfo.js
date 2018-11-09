@@ -8,7 +8,7 @@ import styles from './SpaceInfo.css';
 class SpaceInfo extends Component {
 
   render() {
-    const {space, handleSpacePanoramaClick} = {...this.props};
+    const {space, handleSpacePanoramaClick, handleSpaceRouteClick} = {...this.props};
     const spaceAttributes = Object.keys(space.attributes)
        .filter((propKey) => {
         if (propKey.startsWith('_')) {
@@ -28,7 +28,8 @@ class SpaceInfo extends Component {
           imageFileName={space.attributes['_image_file_name'] ? space.attributes['_image_file_name'] : ''}/>
         <SpaceTitle spaceName={space.attributes['ifc_name']}/>
         <SpaceControl
-          handlePanoramaClick={handleSpacePanoramaClick}/>
+          handlePanoramaClick={handleSpacePanoramaClick}
+          handleRouteClick={handleSpaceRouteClick}/>
         <SpaceAttributes space={spaceAttributes}/>
       </div>
     );
