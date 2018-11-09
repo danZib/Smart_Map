@@ -1,0 +1,42 @@
+{
+  "name": "interactive-floor-plan",
+  "version": "1.0.0",
+  "description": "This project explores the interaction between the user and the underlying floor plan in svg format.",
+  "main": "server.js",
+  "scripts": {
+    "client-install": "npm install --prefix client",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/danZib/interactive-floor-plan.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/danZib/interactive-floor-plan/issues"
+  },
+  "homepage": "https://github.com/danZib/interactive-floor-plan#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "bcrypt-nodejs": "0.0.3",
+    "concurrently": "^3.6.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "ejs": "^2.5.9",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "forge-apis": "^0.4.1",
+    "method-override": "^2.3.10",
+    "morgan": "^1.9.0",
+    "neo4j-driver": "^1.6.0",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0",
+    "react-router": "^4.3.1",
+    "semantic-ui-css": "^2.3.3",
+    "semantic-ui-react": "^0.82.1"
+  }
+}

@@ -1,0 +1,13 @@
+.SpaceTitle {
+  width: 100%;
+  background-color: #DF5F57;
+  color: white;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  flex: 0 0 50px;
+}
+
+.SpaceTitle h1{
+  margin-left: 10px;
+}

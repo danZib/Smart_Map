@@ -1,0 +1,23 @@
+.Button {
+    width: content;
+    background-color: white;
+    font-size: 1em;
+    margin: 1em;
+    padding: 10px;
+    border-radius: 3px;
+    border: 2px solid #75B0F5;
+
+}
+
+.Button:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.Success {
+    border: 2px solid #C7D469;
+}
+
+.Danger {
+    border: 2px solid #DF5F57;
+}

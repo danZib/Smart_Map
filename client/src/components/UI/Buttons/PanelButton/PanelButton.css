@@ -1,0 +1,66 @@
+.Button {
+  height: 40px;
+  width: 40px;
+  background-color: transparent;
+  border: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.Button svg {
+  flex: 1 0 50%;
+  width: 100%;
+  fill: #4C4C4C;
+}
+
+.Button p {
+  margin: 4px 0 0 0;
+  flex: 0 0 14px;
+  font-size: 10px;
+  line-height: 10px;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #4C4C4C;
+
+}
+
+.Button:hover {
+  cursor: pointer;
+  transition: all 0.4s ease-out;
+}
+
+.Button:hover svg {
+  fill: #686868;
+  transition: inherit;
+}
+
+.Button:hover p {
+  color: #686868;
+  transition: inherit;
+}
+
+.Disabled:hover{
+  cursor: not-allowed;
+}
+
+.Disabled svg{
+  fill: #888888;
+  transition: inherit;
+}
+
+.Disabled p{
+  color: #888888;
+}
+
+.Disabled:hover svg {
+  fill: #888888;
+  transition: inherit;
+}
+
+.Disabled:hover p {
+  color: #888888;
+  transition: inherit;
+
+}

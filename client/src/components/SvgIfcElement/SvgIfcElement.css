@@ -1,0 +1,17 @@
+.Space:hover {
+  transition: fill 0.2s ease;
+  cursor: pointer;
+  fill: #D6E2EE;
+}
+
+.WallStandardCase {
+  fill: #E8E8E8;
+}
+
+.SelectedSpace {
+  fill: #D6E2EE;
+}
+
+.Transparent {
+  opacity: 0.3;
+}

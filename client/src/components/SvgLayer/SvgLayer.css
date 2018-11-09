@@ -1,0 +1,23 @@
+.Plumbing {
+    stroke: #05577A;
+    fill: #2788B2;
+    stroke-width: 0.01px;
+}
+
+.Sprinkler {
+    stroke: #B31605;
+    fill: #FB4D3D;
+    stroke-width: 0.01px;
+}
+
+.Ventilation {
+    stroke: #B37100;
+    fill: #FFB535;
+    stroke-width: 0.01px;
+}
+
+.Floorplan {
+    stroke: #000000;
+    fill: #F4F8FC;
+    stroke-width: 0.01px;
+}

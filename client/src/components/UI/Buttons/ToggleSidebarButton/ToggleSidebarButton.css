@@ -1,0 +1,28 @@
+.ToggleButton {
+  height: 60px;
+  width: 28px;
+  position: absolute;
+  left: 0px;
+  top: 10px;
+  background-color: #FFF;
+  box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.2);
+  outline: none;
+  border: 1px solid #D4D4D4;
+  padding: 0;
+  transition: transform 0.3s ease-out;
+}
+
+.ToggleButton svg{
+  width: 18px;
+  height: 18px;
+}
+
+.ToggleButton:hover {
+  background-color: #f4f4f4;
+  cursor: pointer;
+}
+
+.Move {
+  transform: translateX(330px);
+}
+
