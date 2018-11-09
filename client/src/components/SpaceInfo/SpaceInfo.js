@@ -3,8 +3,6 @@ import SpaceTitle from './SpaceTitle/SpaceTitle';
 import SpaceImage from './SpaceImage/SpaceImage';
 import SpaceControl from './SpaceControl/SpaceControl';
 import SpaceAttributes from './SpaceAttributes/SpaceAttributes';
-import SpaceVentilation from './SpaceVentilation/SpaceVentilation';
-import SpaceWorkOrders from './SpaceWorkOrders/SpaceWorkOrders';
 
 import styles from './SpaceInfo.css';
 class SpaceInfo extends Component {

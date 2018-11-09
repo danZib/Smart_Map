@@ -33,7 +33,6 @@ require('./config/passport')(passport, db);
 var indexRoutes = require('./routes/index')(passport);
 var storeyRoutes = require('./routes/storey');
 var spaceRoutes = require('./routes/space');
-var forgeRoutes = require('./routes/forge/forge');
 
 // MIDDLEWARE
 app.use(bodyParser.json())
@@ -51,11 +50,9 @@ app.use(function(req, res, next) {
 });
 
 app.use('/', indexRoutes);
-app.use('/api/forge/', forgeRoutes);
 app.use('/api/building/:buildingId/', indexRoutes);
 app.use('/api/building/:buildingId/storey', storeyRoutes);
 app.use('/api/building/:buildingId/storey/:level/space', spaceRoutes);
-// app.use('/api/rooms/:guid/workorders', workorderRoutes);
 
 // LISTEN
 app.listen(3000, function() {
