@@ -2,6 +2,6 @@
   flex:0 0 52.6px;
   margin:0;
 }
-
-:global(.ui.icon.button).Toggle {
+.lighter{
+  font-weight: lighter;
 }
