@@ -4,29 +4,27 @@ import styles from './SpaceControl.css';
 
 const spaceControl = (props) => {
 
-  const modelClickHandler = (e) => props.handle3DClick(props.urn, e)
   const panoramaClickHandler = (e) => props.handlePanoramaClick(e)
-  const addWorkOrderClickHandler = (e) => props.handleSpaceAddWorkOrderClick(e)
 
   return (
     <div className = {styles.SpaceControl}>
 
       <PanelButton
+        isDisabled={true}
         iconName={"fa/tasks"}
-        text={"Add Workorder"}
-        click={addWorkOrderClickHandler}/>
+        text={"Safe Route"}/>
       <PanelButton
         isDisabled={true}
         iconName={"fa/database"}
-        text={"Add Assets"}/>
+        text={"More Data"}/>
       <PanelButton
         iconName={"fa/street-view"}
         text={"View Panorama"}
         click={panoramaClickHandler}/>
       <PanelButton
+        isDisabled={true}
         iconName={"fa/cube"}
-        text={"View Model"}
-        click={modelClickHandler}/>
+        text={"View Model"}/>
     </div>
   );
 }
