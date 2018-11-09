@@ -5,3 +5,9 @@
   top: 0;
   left: 0;
 }
+
+.Circle circle{
+  stroke: #B31605;
+  fill: #FB4D3D;
+  stroke-width: 1;
+}

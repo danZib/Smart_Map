@@ -6,7 +6,7 @@ import SpaceInfo from '../../components/SpaceInfo/SpaceInfo';
 import Modal from '../../components/UI/Modal/Modal';
 import PanoramaViewer from '../../components/PanoramaViewer/PanoramaViewer';
 import Spinner from '../../components/UI/Spinner/Spinner';
-
+import CurrentLocationControl from '../../components/CurrentLocationControl/CurrentLocationControl';
 import styles from './SvgViewer.css';
 import axios from '../../axios-office-building';
 import ToggleSidebarButton from '../../components/UI/Buttons/ToggleSidebarButton/ToggleSidebarButton';
@@ -16,6 +16,7 @@ class SvgViewer extends Component {
   state = {
     floor: {'level': NaN, 'elements': [], 'viewBox': []},
     openSidebar: false,
+    currentLocation: {'show': false, 'x':NaN, 'y':NaN},
     selectedSpace: {'attributes': {}, 'globalId': '', 'subSystems': [], 'workOrders': []},
     openPanoramaViewer: false,
     photoSphere: {},
@@ -35,6 +36,10 @@ class SvgViewer extends Component {
       })
   }
 
+  initCurrentLocation(show=false, x=NaN, y=NaN) {
+    return {'show': show, 'x': x, 'y': y}
+  }
+
   initSelectedSpace(attributes ={}, subSystems=[], workOrders=[]) {
     let globalId = '';
     if (Object.keys(attributes).length > 0) {
@@ -44,8 +49,10 @@ class SvgViewer extends Component {
   }
 
   resetViewer() {
-    const selectedSpace = this.initSelectedSpace()
-     this.setState({floor: {'level': NaN, 'elements': [], 'viewBox': []}, selectedSpace: selectedSpace, openSidebar: false});
+    const selectedSpace = this.initSelectedSpace();
+    const currentLocation = this.initCurrentLocation();
+
+     this.setState({floor: {'level': NaN, 'elements': [], 'viewBox': []}, currentLocation: currentLocation, selectedSpace: selectedSpace, openSidebar: false});
   }
 
   getSpacePanorama() {
@@ -88,6 +95,13 @@ class SvgViewer extends Component {
     })
   }
 
+  showCurrentLocationHandler = (e) => {
+    this.setState((prevState) => {
+      const newCurrentLocation = this.initCurrentLocation(true, 1.5, 16.0)
+      return {currentLocation: newCurrentLocation}
+    })
+  }
+
   selectSpaceHandler = (spaceGuid, e) => {
 
     if (this.state.selectedSpace.globalId === spaceGuid) {
@@ -124,7 +138,7 @@ class SvgViewer extends Component {
   // Render //////////////////////////////////////////////////////////
   render() {
 
-    const {floor, openSidebar, selectedSpace, photoSphere, openPanoramaViewer, loading, levels}  = {...this.state};
+    const {floor, openSidebar, selectedSpace, photoSphere, openPanoramaViewer, loading, levels, currentLocation}  = {...this.state};
 
     let spinner = null;
 
@@ -168,7 +182,8 @@ class SvgViewer extends Component {
           viewBox={floor['viewBox']}
           svgLayers={svgLayers}
           handleClickOnSpace={this.selectSpaceHandler}
-          selectedSpaceId={selectedSpace ? selectedSpace.globalId : ''}/>
+          selectedSpaceId={selectedSpace ? selectedSpace.globalId : ''}
+          currentLocation={currentLocation}/>
         <FloorControl
           floorLevels={levels}
           activeLevel={floor['level']}
@@ -176,6 +191,10 @@ class SvgViewer extends Component {
         <ToggleSidebarButton
           handleClick={this.toggleSidebarHandler}
           isOpenSidebar={openSidebar}/>
+        <CurrentLocationControl
+          handleClick={this.showCurrentLocationHandler}
+          openSidebar={openSidebar}
+          show={currentLocation.show}/>
       </div>
     );
   }

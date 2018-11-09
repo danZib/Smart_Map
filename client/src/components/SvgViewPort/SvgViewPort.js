@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import SvgIfcElement from '../../components/SvgIfcElement/SvgIfcElement';
 import SvgLayer from '../SvgLayer/SvgLayer';
 import styles from './SvgViewPort.css';
+import SvgCircle from '../SvgCircle/SvgCircle';
 
 class SvgViewPort extends Component {
 
@@ -31,7 +32,6 @@ class SvgViewPort extends Component {
           classes={classes} />
         )
         })
-
       return (
         <SvgLayer
           key = {layerType}
@@ -41,6 +41,17 @@ class SvgViewPort extends Component {
         </SvgLayer>
       );
     });
+
+    if (this.props.currentLocation.show) {
+      svgLayers.push(
+        <SvgLayer
+          key="currentLocation"
+          styleClass=''
+          isTransparent={false}>
+          <SvgCircle x={this.props.currentLocation.x} y={this.props.currentLocation.y} radius={0.5} color="red" />
+        </SvgLayer>
+      )
+    }
     return (
       <svg
         className={styles.SvgViewPort}

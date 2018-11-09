@@ -8,6 +8,11 @@
   fill: #E8E8E8;
 }
 
+.Door {
+  stroke: #B31605;
+  fill: #FB4D3D;
+}
+
 .SelectedSpace {
   fill: #D6E2EE;
 }
