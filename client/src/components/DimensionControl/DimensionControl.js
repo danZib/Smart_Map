@@ -3,7 +3,6 @@ import styles from './DimensionControl.css';
 import PropTypes from 'prop-types';
 
 const dimensionControl = (props) => {
-
   const dimensionControlButtons = props.options
     .map((option) => {
       let classes = [styles.DimensionButton]

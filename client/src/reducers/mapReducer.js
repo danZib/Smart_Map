@@ -1,4 +1,4 @@
-export function mapReducer(state = {isLoading: false, dimension:2}, action) {
+export function mapReducer(state = {isLoading: false, dimension:2, floor:0}, action) {
 	switch(action.type){
 	case 'IS_LOADING':
 		return{
@@ -21,6 +21,18 @@ export function mapReducer(state = {isLoading: false, dimension:2}, action) {
 		return{
 			...state,
 			dimension: action.dimension
+		}
+
+	case 'SET_MULTIPLE':
+		return{
+			...state,
+			multiple: action.multiple
+		}
+
+	case 'SET_FLOOR':
+		return{
+			...state, 
+			floor:action.floor
 		}
 
 	default:
