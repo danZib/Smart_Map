@@ -62,7 +62,7 @@ router.get('/svg', async function(req, res) {
   res.json(data)
 });
 
-router.get('/route/:sourceId/:leafId', function(req, res) {
+router.get('/path/:sourceId/:leafId', function(req, res) {
   var buildingId = req.params.buildingId;
   var sourceId = req.params.sourceId;
   var leafId = req.params.leafId;
