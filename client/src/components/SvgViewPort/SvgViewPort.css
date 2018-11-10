@@ -1,7 +1,6 @@
 .SvgViewPort {
 	transition: transform 1s ease;
 	-webkit-transform: perspective(0px) rotateX(0deg) translateZ(0px);
-
 	transform: perspective(0px) rotateX(0deg);
 	max-height: 100%;
 	width: 100%;
@@ -9,6 +8,7 @@
 	position: absolute;
 	top: 0;
 	left: 0;
+	clear: both;
 }
 
 .Circle circle{
@@ -18,7 +18,6 @@
 }
 
 .skew{
-	/*max-height: 80%; */
 	-webkit-transform: perspective(900px) rotateX(65deg);
 	transform: perspective(900px) rotateX(65deg);	
 }

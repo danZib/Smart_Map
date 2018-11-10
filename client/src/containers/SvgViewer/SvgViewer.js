@@ -33,10 +33,7 @@ class SvgViewer extends Component {
   }
 
   componentDidMount() {
-    console.log(this.props);
-
     this.props.getBuilding();
-
   }
 
   initCurrentLocation(show=false, x=NaN, y=NaN) {
@@ -54,8 +51,7 @@ class SvgViewer extends Component {
   resetViewer() {
     const selectedSpace = this.initSelectedSpace();
     const currentLocation = this.initCurrentLocation();
-
-     this.setState({floor: {'level': NaN, 'elements': [], 'viewBox': []}, currentLocation: currentLocation, selectedSpace: selectedSpace, openSidebar: false, routeCoordinates: []});
+    this.setState({floor: {'level': NaN, 'elements': [], 'viewBox': []}, currentLocation: currentLocation, selectedSpace: selectedSpace, openSidebar: false, routeCoordinates: []});
   }
 
   getSpacePanorama() {
@@ -102,21 +98,14 @@ class SvgViewer extends Component {
   }
 
   selectSpaceHandler = (spaceGuid, e) => {
-
-    if (this.state.selectedSpace.globalId === spaceGuid) {
-      const selectedSpace = this.initSelectedSpace()
-      this.setState({openSidebar: false, selectedSpace: selectedSpace});
-      return;
+    if(this.props.currentSpace.globalId !== spaceGuid){
+      this.props.setCurrentSpace(spaceGuid);
+      this.setState({openSidebar: true});
+    } 
+    else if (this.props.currentSpace.globalId === spaceGuid) {
+      this.props.setCurrentSpace(null);
+      this.setState({openSidebar: false});
     }
-
-    axios.get(`/storey/${this.props.floor}/space/${spaceGuid}`)
-    .then((spaceRes) => {
-      const selectedSpace = this.initSelectedSpace(spaceRes.data);
-      this.setState({openSidebar: true, selectedSpace: selectedSpace});
-    })
-    .catch((err) => {
-      console.log(err);
-    })
   }
 
   viewSpacePanoramaHandler = async (e) => {
@@ -222,14 +211,16 @@ const mapStateToProps = state => ({
   dimension: state.map.dimension,
   floor: state.map.floor,
   multiple: state.map.multiple,
-  building: state.map.building
+  building: state.map.building,
+  currentSpace: state.map.space
 });
 
 const mapDispatchToProps = dispatch => ({
   getBuilding: mapActions.getBuilding(dispatch),
   setFloor: mapActions.setFloor(dispatch),
   setMultiple: mapActions.setMultiple(dispatch),
-  setDimension: mapActions.setDimension(dispatch)
+  setDimension: mapActions.setDimension(dispatch),
+  setCurrentSpace: mapActions.setCurrentSpace(dispatch)
 });
 
 export default connect(

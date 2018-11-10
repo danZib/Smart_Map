@@ -30,3 +30,19 @@ export function setDimension(dispatch){
 		dispatch( {type: 'SET_DIMENSION', dimension:dimension });
 	}
 }
+
+export function setCurrentSpace(dispatch){
+	return function(spaceGuid, buildingId = '27TOPmxCrDgPimmYFfwtvE'){
+		if(spaceGuid != null){
+		    axios.get(`api/building/${buildingId}/space/${spaceGuid}`)
+		    .then((spaceRes) => {
+		    	dispatch({type: 'SET_SPACE', space: spaceRes})
+		    })
+		    .catch((err) => {
+		      console.log(err);
+		    })
+		}else{
+			dispatch({type: 'SET_SPACE', space: null})
+		}
+	}
+}
