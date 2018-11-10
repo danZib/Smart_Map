@@ -181,12 +181,12 @@ GraphDb.prototype.getFloorplanByLevelPromise = function(buildingId, level) {
   //   });
 };
 
-GraphDb.prototype.getSpace = function(buildingId, level, spaceId, callback) {
+GraphDb.prototype.getSpace = function(buildingId, spaceId, callback) {
   var session = this.driver.session();
   session
     .run(
       ` MATCH (bui:IfcBuilding)-[:CONTAINS_STOREY]-(sto:IfcBuildingStorey)
-        WHERE sto._level = ${level} AND bui.ifc_global_id = '${buildingId}'
+        WHERE bui.ifc_global_id = '${buildingId}'
         WITH sto AS storey
         MATCH (storey)-[:CONTAINS_SPACE]-(space:IfcSpace)
         WHERE space.ifc_global_id = '${spaceId}'
