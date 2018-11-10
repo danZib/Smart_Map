@@ -15,9 +15,7 @@ class SvgViewPort extends Component {
     const svgLayers = Object.keys(this.props.svgLayers).map((layerType) => {
 
       const svgIfcElements = this.props.svgLayers[layerType]['elements'].map((ifcElement) => {
-
         const classes = [ifcElement.ifc_type.slice().replace('Ifc', '')];
-
         // Find a more effective way of specifically rendering a certain room
         if (ifcElement.global_id === selectedSpaceId) {
           classes.push('SelectedSpace')
@@ -34,7 +32,7 @@ class SvgViewPort extends Component {
           clicked={ifcElement.ifc_type === 'IfcSpace' ? this.props.handleClickOnSpace : ()=>{}}
           classes={classes} />
         )
-        })
+      })
       return (
         <SvgLayer
           key = {layerType}
@@ -79,12 +77,16 @@ class SvgViewPort extends Component {
       )
     }
 
+    const classes = [styles.SvgViewPort];
+    this.props.dimension==3 ? classes.push(styles.skew) : ''
     return (
-      <svg
-        className={styles.SvgViewPort}
-        viewBox={viewBox.length === 0 ? [0, 0, 0, 0] : viewBox}>
-        {svgLayers}
-      </svg>
+      <div className="map-container">
+        <svg
+          className={classes.join(' ')}
+          viewBox={viewBox.length === 0 ? [0, 0, 0, 0] : viewBox}>
+          {svgLayers}
+        </svg>
+      </div>
     );
   };
 }

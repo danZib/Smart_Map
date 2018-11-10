@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+
 import SvgViewPort from '../../components/SvgViewPort/SvgViewPort';
 import FloorControl from '../../components/FloorControl/FloorControl';
+import DimensionControl from '../../components/DimensionControl/DimensionControl';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import SpaceInfo from '../../components/SpaceInfo/SpaceInfo';
 import Modal from '../../components/UI/Modal/Modal';
@@ -10,25 +13,31 @@ import CurrentLocationControl from '../../components/CurrentLocationControl/Curr
 import styles from './SvgViewer.css';
 import axios from '../../axios-office-building';
 import ToggleSidebarButton from '../../components/UI/Buttons/ToggleSidebarButton/ToggleSidebarButton';
+
+import * as mapActions from '../../actions/mapActions';
+
 class SvgViewer extends Component {
-
-
-  state = {
-    floor: {'level': NaN, 'elements': [], 'viewBox': []},
-    openSidebar: false,
-    currentLocation: {'show': false, 'x':NaN, 'y':NaN},
-    selectedSpace: {'attributes': {}, 'globalId': '', 'subSystems': [], 'workOrders': []},
-    openPanoramaViewer: false,
-    photoSphere: {},
-    loading: false,
-    levels: [],
-    routeCoordinates: []
-  }
-
   // General /////////////////////////////////////////////////////////
+
+  constructor(props){
+    super(props);
+    this.state = {
+      floor: {'level': NaN, 'elements': [], 'viewBox': []},
+      openSidebar: false,
+      currentLocation: {'show': false, 'x':NaN, 'y':NaN},
+      selectedSpace: {'attributes': {}, 'globalId': '', 'subSystems': [], 'workOrders': []},
+      openPanoramaViewer: false,
+      photoSphere: {},
+      loading: false,
+      levels: [],
+      routeCoordinates: []
+    }
+  }
 
   componentDidMount() {
     console.log(this.props);
+
+    this.props.getBuilding();
 
     axios.get(`/storey/`)
       .then((response) => {
@@ -90,6 +99,10 @@ class SvgViewer extends Component {
     })
   }
 
+  selectDimension = (dimension, e) => {
+    this.props.setDimension(dimension);
+  }
+
   toggleSidebarHandler = (e) => {
     this.setState((prevState) => {
       return {openSidebar: !prevState.openSidebar}
@@ -145,25 +158,11 @@ class SvgViewer extends Component {
 
   // Render //////////////////////////////////////////////////////////
   render() {
-
     const {floor, openSidebar, selectedSpace, photoSphere, openPanoramaViewer, loading, levels, currentLocation, routeCoordinates}  = {...this.state};
 
-    let spinner = null;
+    let spinner = isNaN(floor['level']) && loading ? <div className={styles.Spinner}><Spinner/></div> : null;
 
-    let svgLayers = {}
-    if (!(isNaN(floor['level']))) {
-
-      const floorLayer = {'Floorplan': {
-        'elements': floor['elements'].slice(),
-        'isTransparent': false,
-        'exceptions': []}}
-
-      svgLayers = floorLayer;
-
-      if (loading) {
-        spinner = <div className={styles.Spinner}><Spinner/></div>
-      }
-    }
+    let svgLayers = !isNaN(floor['level']) ? {'Floorplan': {'elements': floor['elements'].slice(),'isTransparent': false,'exceptions': []}} : {};
 
     let spaceSidebarContent = null;
 
@@ -176,8 +175,6 @@ class SvgViewer extends Component {
       );
     }
 
-
-
     return (
       <div className={styles.SvgViewer}>
         {spinner}
@@ -187,17 +184,24 @@ class SvgViewer extends Component {
         <Sidebar open={openSidebar}>
            {spaceSidebarContent}
         </Sidebar>
-        <SvgViewPort
-          viewBox={floor['viewBox']}
-          svgLayers={svgLayers}
-          handleClickOnSpace={this.selectSpaceHandler}
-          selectedSpaceId={selectedSpace ? selectedSpace.globalId : ''}
-          currentLocation={currentLocation}
-          routeCoordinates={routeCoordinates}/>
+        <div className="map-wrapper">
+          <SvgViewPort
+            dimension={this.props.dimension}
+            viewBox={floor['viewBox']}
+            svgLayers={svgLayers}
+            handleClickOnSpace={this.selectSpaceHandler}
+            selectedSpaceId={selectedSpace ? selectedSpace.globalId : ''}
+            currentLocation={currentLocation}
+            routeCoordinates={routeCoordinates}/>
+        </div>
         <FloorControl
           floorLevels={levels}
           activeLevel={floor['level']}
           handleClick={this.selectFloorHandler}/>
+        <DimensionControl
+          options={[2,3]}
+          dimension={this.props.dimension}
+          handleClick={this.selectDimension}/>
         <ToggleSidebarButton
           handleClick={this.toggleSidebarHandler}
           isOpenSidebar={openSidebar}/>
@@ -210,4 +214,16 @@ class SvgViewer extends Component {
   }
 }
 
-export default SvgViewer;
+const mapStateToProps = state => ({
+  dimension: state.map.dimension
+});
+
+const mapDispatchToProps = dispatch => ({
+  getBuilding: mapActions.getBuilding(dispatch),
+  setDimension: mapActions.setDimension(dispatch)
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SvgViewer);
