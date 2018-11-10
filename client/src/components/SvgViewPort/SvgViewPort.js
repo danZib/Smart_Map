@@ -12,6 +12,9 @@ class SvgViewPort extends Component {
     const {selectedSpaceId, routeCoordinates}  = {...this.props};
     const viewBox = this.props.viewBox.join(',');
 
+    console.log('*********************');
+    console.log(this.props);
+
     const svgLayers = Object.keys(this.props.svgLayers).map((layerType) => {
 
       const svgIfcElements = this.props.svgLayers[layerType]['elements'].map((ifcElement) => {
@@ -78,11 +81,22 @@ class SvgViewPort extends Component {
     }
 
     const classes = [styles.SvgViewPort];
-    this.props.dimension==3 ? classes.push(styles.skew) : ''
+
+    let divStyle = {}
+
+    if(this.props.dimension===3 && this.props.multiple){
+      //translateY('+this.props.svgLayers.Floorplan.level*200+'px)
+      divStyle = {
+        transform: 'perspective(2000px) rotateX(65deg) translateZ('+this.props.svgLayers.Floorplan.level*300+'px)'
+      };
+    }
+
+    if(this.props.dimension===3) classes.push(styles.skew);
     return (
       <div className="map-container">
         <svg
           className={classes.join(' ')}
+          style={divStyle}
           viewBox={viewBox.length === 0 ? [0, 0, 0, 0] : viewBox}>
           {svgLayers}
         </svg>

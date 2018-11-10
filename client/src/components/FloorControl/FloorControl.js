@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './FloorControl.css';
-import PropTypes from 'prop-types';
 
 import {connect} from 'react-redux';
 
