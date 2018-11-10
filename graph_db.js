@@ -94,7 +94,30 @@ GraphDb.prototype.getFloorplans = function(buildingId, callback) {
     });
 };
 
-GraphDb.prototype.getFloorplanByLevel = function(buildingId, level) {
+GraphDb.prototype.getFloorplanByLevel = function(buildingId, level, callback) {
+  var session = this.driver.session();
+  session
+    .run(
+      ` MATCH (b:IfcBuilding)-[:CONTAINS_STOREY]->(s:IfcBuildingStorey)-[r:CONTAINS_ELEMENT|CONTAINS_SPACE]-(e)
+        WHERE s._level = ${level} AND b.ifc_global_id = '${buildingId}'
+        WITH s, {global_id: e.ifc_global_id, svg_path: e._svg_path, ifc_type: labels(e)[0]} AS element
+        RETURN {elements: collect(element), viewBox:s._viewport}`
+    )
+    .then(function(results) {
+      var records = [];
+      results.records.forEach(function(record) {
+        records.push(record._fields[0]);
+      });
+      session.close();
+      callback(null, records[0]);
+    })
+    .catch(function(err) {
+      session.close();
+      callback(err);
+    });
+};
+
+GraphDb.prototype.getFloorplanByLevelPromise = function(buildingId, level) {
   var session = this.driver.session();
   return session.run(
       ` MATCH (b:IfcBuilding)-[:CONTAINS_STOREY]->(s:IfcBuildingStorey)-[r:CONTAINS_ELEMENT|CONTAINS_SPACE]-(e)

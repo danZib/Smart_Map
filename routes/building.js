@@ -24,7 +24,7 @@ router.get('/svg', async function(req, res) {
   const levels = [0, 1, 2]
   // console.log("Outside loop");
 
-  data.push(await db.getFloorplanByLevel(buildingId, 0)
+  data.push(await db.getFloorplanByLevelPromise(buildingId, 0)
     .then((results) => {
       var records = [];
       results.records.forEach(function(record) {
@@ -36,7 +36,7 @@ router.get('/svg', async function(req, res) {
       return 'err';
     }))
 
-  data.push(await db.getFloorplanByLevel(buildingId, 1)
+  data.push(await db.getFloorplanByLevelPromise(buildingId, 1)
     .then((results) => {
       var records = [];
       results.records.forEach(function(record) {
@@ -48,7 +48,7 @@ router.get('/svg', async function(req, res) {
       return 'err';
     }))
 
-  data.push(await db.getFloorplanByLevel(buildingId, 2)
+  data.push(await db.getFloorplanByLevelPromise(buildingId, 2)
     .then((results) => {
       var records = [];
       results.records.forEach(function(record) {
