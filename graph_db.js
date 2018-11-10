@@ -122,8 +122,10 @@ GraphDb.prototype.getShortestRoute = function(buildingId, source_id, leaf_id, ca
   session
     .run(
       ` MATCH (ms:IfcSpace { ifc_global_id: '${source_id}' }),(cs:IfcSpace { ifc_global_id: '${leaf_id}' }),
-        p=shortestPath((ms)-[r:CONNECTED_TO*..15]-(cs))
-        return nodes(p)`
+        p=shortestPath((ms)-[:CONNECTED_TO*..15]-(cs))
+        UNWIND nodes(p) AS number
+        unwind relationships(p) as rels
+        RETURN distinct [number, rels]`
     )
     .then(function(results) {
       var records = [];
@@ -131,10 +133,17 @@ GraphDb.prototype.getShortestRoute = function(buildingId, source_id, leaf_id, ca
         records.push(record._fields[0]);
       });
       session.close();
-      let result = records[0].map((node)=> {
-        return {'x': node.properties._center_point[0], 'y': -node.properties._center_point[1]}
-      })
-      callback(null, result);
+
+      let final_res = []
+      for (let i = 0; i < records.length; i = i + 3){
+        final_res.push({'x': records[i][0].properties._center_point[0],
+            'y': -records[i][0].properties._center_point[1]})
+        final_res.push({'x': records[i][1].properties._center_point[0],
+            'y': -records[i][1].properties._center_point[1]})
+
+      }
+
+      callback(null, final_res);
     })
     .catch(function(err) {
       session.close();
