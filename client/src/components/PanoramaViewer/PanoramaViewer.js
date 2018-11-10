@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import styles from './PanoramaViewer.css';
 import StandardButton from '../UI/Buttons/StandardButton/StandardButton';
-import Aux from '../../hoc/Aux/Aux';
+import Aux from '../../hoc/_Aux/_Aux';
 class PanoramaViewer extends Component {
 
   constructor(props) {
