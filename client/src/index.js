@@ -9,7 +9,7 @@ import { ConnectedRouter } from 'react-router-redux';
 import 'semantic-ui-css/semantic.min.css';
 import './index.css';
 import registerServiceWorker from './registerServiceWorker';
-import { BrowserRouter } from 'react-router-dom';
+//import { BrowserRouter } from 'react-router-dom';
 
 /*
 const app = (
