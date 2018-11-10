@@ -117,6 +117,31 @@ GraphDb.prototype.getFloorplanByLevel = function(buildingId, level, callback) {
     });
 };
 
+GraphDb.prototype.getShortestRoute = function(buildingId, source_id, leaf_id, callback) {
+  var session = this.driver.session();
+  session
+    .run(
+      ` MATCH (ms:IfcSpace { ifc_global_id: '${source_id}' }),(cs:IfcSpace { ifc_global_id: '${leaf_id}' }),
+        p=shortestPath((ms)-[r:CONNECTED_TO*..15]-(cs))
+        return nodes(p)`
+    )
+    .then(function(results) {
+      var records = [];
+      results.records.forEach(function(record) {
+        records.push(record._fields[0]);
+      });
+      session.close();
+      let result = records[0].map((node)=> {
+        return {'x': node.properties._center_point[0], 'y': -node.properties._center_point[1]}
+      })
+      callback(null, result);
+    })
+    .catch(function(err) {
+      session.close();
+      callback(err);
+    });
+};
+
 GraphDb.prototype.getFloorplanByLevelPromise = function(buildingId, level) {
   var session = this.driver.session();
   return session.run(
