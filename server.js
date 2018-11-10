@@ -31,6 +31,7 @@ require('./config/passport')(passport, db);
 
 // ROUTES
 var indexRoutes = require('./routes/index')(passport);
+var buildingRoutes = require('./routes/building');
 var storeyRoutes = require('./routes/storey');
 var spaceRoutes = require('./routes/space');
 
@@ -50,7 +51,7 @@ app.use(function(req, res, next) {
 });
 
 app.use('/', indexRoutes);
-app.use('/api/building/:buildingId/', indexRoutes);
+app.use('/api/building/:buildingId/', buildingRoutes);
 app.use('/api/building/:buildingId/storey', storeyRoutes);
 app.use('/api/building/:buildingId/storey/:level/space', spaceRoutes);
 
