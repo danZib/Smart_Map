@@ -49,6 +49,23 @@ GraphDb.prototype.getBuildingStoreys = function(buildingId, callback) {
     });
 };
 
+GraphDb.prototype.setWeight = function(callback) {
+  var session = this.driver.session();
+  session
+    .run(
+      ` MATCH (spa1:IfcSpace {ifc_global_id:'04Sq57eS5FffNezn2ilgtD'})-[r:CONNECTED_TO]-(spa2:IfcSpace {ifc_global_id:'04Sq57eS5FffNezn2ilgCS'})
+        SET r.weight= 100`
+    )
+    .then(function(results) {
+
+      callback(null, true);
+    })
+    .catch(function(err) {
+      session.close();
+      callback(err);
+    });
+};
+
 GraphDb.prototype.getBuildingStorey = function(buildingId, level, callback) {
   var session = this.driver.session();
   session
