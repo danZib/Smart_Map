@@ -25,7 +25,7 @@ class SpaceInfo extends Component {
     return (
       <div className={styles.Container}>
         <SpaceImage
-          imageFileName={space.attributes['_image_file_name'] ? space.attributes['_image_file_name'] : ''}/>
+          imageFileName={''}/>
         <SpaceTitle spaceName={space.attributes['ifc_name']}/>
         <SpaceControl
           handlePanoramaClick={handleSpacePanoramaClick}

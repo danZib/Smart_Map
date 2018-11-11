@@ -3,8 +3,9 @@ import React from 'react';
 const svgArrow = (props) => {
 
   const dString = `M${props.x0},${props.y0} L ${props.x1}, ${props.y1}`
-  return(
-    <g>
+  let arrow = null;
+  if (props.hasArrow) {
+    arrow = (<g>
     <defs>
         <marker id='head'
         orient='auto'
@@ -20,7 +21,18 @@ const svgArrow = (props) => {
       stroke-width='0.2'
       stroke={props.color}
       d={dString}/>
-    </g>
+    </g>)
+  } else {
+    arrow = (
+      <g>
+        <path
+        stroke-width='0.2'
+        stroke={props.color}
+        d={dString}/>
+    </g>)
+  }
+  return(
+    {arrow}
   );
 }
 
