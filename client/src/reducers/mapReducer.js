@@ -3,7 +3,7 @@ export function mapReducer(state = {
 	dimension:2, 
 	floor:0, 
 	multiple:false,
-	algo: 'Dijkstra',
+	algo: 'dijkstra',
 	space:{'attributes': {}, 'globalId': '', 'subSystems': [], 'workOrders': []}}, action) {
 
 	switch(action.type){
