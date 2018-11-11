@@ -49,12 +49,12 @@ GraphDb.prototype.getBuildingStoreys = function(buildingId, callback) {
     });
 };
 
-GraphDb.prototype.setWeight = function(callback) {
+GraphDb.prototype.setWeights = function(callback) {
   var session = this.driver.session();
   session
     .run(
-      ` MATCH (spa1:IfcSpace {ifc_global_id:'04Sq57eS5FffNezn2ilgtD'})-[r:CONNECTED_TO]-(spa2:IfcSpace {ifc_global_id:'04Sq57eS5FffNezn2ilgCS'})
-        SET r.weight= 100`
+      ` MATCH p=()-[r:CONNECTED_TO]-()
+        FOREACH (n IN relationships(p)| SET n.weight = rand() * 10 )`
     )
     .then(function(results) {
 
@@ -136,7 +136,7 @@ GraphDb.prototype.getFloorplanByLevel = function(buildingId, level, callback) {
 
 
 
-   GraphDb.prototype.getShortestRoute = function(buildingId, source_id, leaf_id, callback) {
+   GraphDb.prototype.getWeightedRoute = function(buildingId, source_id, leaf_id, callback) {
   var session = this.driver.session();
   session
     .run(
@@ -213,82 +213,82 @@ GraphDb.prototype.getFloorplanByLevel = function(buildingId, level, callback) {
     });
 };
 
-// GraphDb.prototype.getShortestRoute = function(buildingId, source_id, leaf_id, callback) {
-//   var session = this.driver.session();
-//   session
-//     .run(
-//       ` MATCH (ms:IfcSpace { ifc_global_id: '${source_id}' }),(cs:IfcSpace { ifc_global_id: '${leaf_id}' }),
-//         p=shortestPath((ms)-[:CONNECTED_TO*..15]-(cs))
-//         RETURN p`
-//     )
-//     .then(function(results) {
-//       var records = [];
-//       results.records.forEach(function(record) {
-//         records.push(record._fields[0].segments);
-//       });
-//       session.close();
-//       let final_res = []
-//       records = records[0]
-//       for (let i = 0; i < records.length; i ++) {
+GraphDb.prototype.getShortestRoute = function(buildingId, source_id, leaf_id, callback) {
+  var session = this.driver.session();
+  session
+    .run(
+      ` MATCH (ms:IfcSpace { ifc_global_id: '${source_id}' }),(cs:IfcSpace { ifc_global_id: '${leaf_id}' }),
+        p=shortestPath((ms)-[:CONNECTED_TO*..15]-(cs))
+        RETURN p`
+    )
+    .then(function(results) {
+      var records = [];
+      results.records.forEach(function(record) {
+        records.push(record._fields[0].segments);
+      });
+      session.close();
+      let final_res = []
+      records = records[0]
+      for (let i = 0; i < records.length; i ++) {
 
-//         let levelFirst = 0
-//         if (records[i].start.properties._center_point[2] > 4.0){
-//           levelFirst = 1
-//         }
-//         let levelSecond = 0
-//         if (records[i].relationship.properties._center_point[2] > 4.0){
-//           levelSecond = 1
-//         }
+        let levelFirst = 0
+        if (records[i].start.properties._center_point[2] > 4.0){
+          levelFirst = 1
+        }
+        let levelSecond = 0
+        if (records[i].relationship.properties._center_point[2] > 4.0){
+          levelSecond = 1
+        }
 
-//         let firstCoord = {'x': records[i].start.properties._center_point[0], 'y': -records[i].start.properties._center_point[1], 'level': levelFirst, 'guid': records[i].start.properties.ifc_global_id, 'type': 'IfcSpace'}
+        let firstCoord = {'x': records[i].start.properties._center_point[0], 'y': -records[i].start.properties._center_point[1], 'level': levelFirst, 'guid': records[i].start.properties.ifc_global_id, 'type': 'IfcSpace'}
 
-//         let secondCoord = {'x': records[i].relationship.properties._center_point[0], 'y': -records[i].relationship.properties._center_point[1], 'level': levelSecond, 'guid': '', 'type': 'IfcDoor'}
-//         if (i > 0) {
-//           let prevCoord = final_res[i-1]
-//           let distance1 = utils.calcDistance(prevCoord, firstCoord)
-//           let distance2 = utils.calcDistance(prevCoord, secondCoord)
+        let secondCoord = {'x': records[i].relationship.properties._center_point[0], 'y': -records[i].relationship.properties._center_point[1], 'level': levelSecond, 'guid': '', 'type': 'IfcDoor'}
+        if (i > 0) {
+          let prevCoord = final_res[i-1]
+          let distance1 = utils.calcDistance(prevCoord, firstCoord)
+          let distance2 = utils.calcDistance(prevCoord, secondCoord)
 
-//           if (distance1 < distance2) {
-//             final_res.push(firstCoord)
-//           }
-//           final_res.push(secondCoord)
-//         } else {
-//           final_res.push(firstCoord)
-//           final_res.push(secondCoord)
-//         }
+          if (distance1 < distance2) {
+            final_res.push(firstCoord)
+          }
+          final_res.push(secondCoord)
+        } else {
+          final_res.push(firstCoord)
+          final_res.push(secondCoord)
+        }
 
-//       }
-//       // if (records[records.length - 1].end.properties._center_point[2] < 4.0){
-//       //     let levelLast = 0
-//       //   } else {
-//       //     let levelLast = 1
-//       // }
+      }
+      // if (records[records.length - 1].end.properties._center_point[2] < 4.0){
+      //     let levelLast = 0
+      //   } else {
+      //     let levelLast = 1
+      // }
 
-//       let levelLast = 0
-//         if (records[records.length - 1].end.properties._center_point[2] > 4.0){
-//           levelLast = 1
-//         }
+      let levelLast = 0
+        if (records[records.length - 1].end.properties._center_point[2] > 4.0){
+          levelLast = 1
+        }
 
-//       let lastCoord = {'x': records[records.length - 1].end.properties._center_point[0], 'y': -records[records.length - 1].end.properties._center_point[1], 'level': levelLast, 'guid': records[records.length - 1].end.properties.ifc_global_id, 'type': 'IfcSpace'}
+      let lastCoord = {'x': records[records.length - 1].end.properties._center_point[0], 'y': -records[records.length - 1].end.properties._center_point[1], 'level': levelLast, 'guid': records[records.length - 1].end.properties.ifc_global_id, 'type': 'IfcSpace'}
 
-//       final_res.push(lastCoord)
+      final_res.push(lastCoord)
 
-//       // let final_res = []
-//       // for (let i = 0; i < records.length; i = i + 3){
-//       //   final_res.push({'x': records[i][0].properties._center_point[0],
-//       //       'y': -records[i][0].properties._center_point[1]})
-//       //   final_res.push({'x': records[i][1].properties._center_point[0],
-//       //       'y': -records[i][1].properties._center_point[1]})
+      // let final_res = []
+      // for (let i = 0; i < records.length; i = i + 3){
+      //   final_res.push({'x': records[i][0].properties._center_point[0],
+      //       'y': -records[i][0].properties._center_point[1]})
+      //   final_res.push({'x': records[i][1].properties._center_point[0],
+      //       'y': -records[i][1].properties._center_point[1]})
 
-//       // }
+      // }
 
-//       callback(null, final_res);
-//     })
-//     .catch(function(err) {
-//       session.close();
-//       callback(err);
-//     });
-// };
+      callback(null, final_res);
+    })
+    .catch(function(err) {
+      session.close();
+      callback(err);
+    });
+};
 
 GraphDb.prototype.getFloorplanByLevelPromise = function(buildingId, level) {
   var session = this.driver.session();

@@ -66,7 +66,7 @@ router.get('/mockweight', function(req, res) {
   var buildingId = req.params.buildingId;
   var spaceId = req.params.spaceId;
 
-  db.setWeight(function(err, records) {
+  db.setWeights(function(err, records) {
     if (err) {
       res.send(err);
     } else {
@@ -88,12 +88,26 @@ router.get('/space/:spaceId', function(req, res) {
   });
 })
 
-router.get('/path/:sourceId/:leafId', function(req, res) {
+router.get('/path/dijkstra/:sourceId/:leafId', function(req, res) {
 
   var buildingId = req.params.buildingId;
   var sourceId = req.params.sourceId;
   var leafId = req.params.leafId;
   db.getShortestRoute(buildingId, sourceId, leafId, function(err, records) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.json(records);
+    }
+  });
+});
+
+router.get('/path/bfs/:sourceId/:leafId', function(req, res) {
+
+  var buildingId = req.params.buildingId;
+  var sourceId = req.params.sourceId;
+  var leafId = req.params.leafId;
+  db.getWeightedRoute(buildingId, sourceId, leafId, function(err, records) {
     if (err) {
       res.send(err);
     } else {
