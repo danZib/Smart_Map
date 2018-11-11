@@ -135,9 +135,18 @@ GraphDb.prototype.getShortestRoute = function(buildingId, source_id, leaf_id, ca
       records = records[0]
       for (let i = 0; i < records.length; i ++) {
 
-        let firstCoord = {'x': records[i].start.properties._center_point[0], 'y': -records[i].start.properties._center_point[1]}
+        let levelFirst = 0
+        if (records[i].start.properties._center_point[2] > 4.0){
+          levelFirst = 1
+        }
+        let levelSecond = 0
+        if (records[i].relationship.properties._center_point[2] > 4.0){
+          levelSecond = 1
+        }
 
-        let secondCoord = {'x': records[i].relationship.properties._center_point[0], 'y': -records[i].relationship.properties._center_point[1]}
+        let firstCoord = {'x': records[i].start.properties._center_point[0], 'y': -records[i].start.properties._center_point[1], 'level': levelFirst}
+
+        let secondCoord = {'x': records[i].relationship.properties._center_point[0], 'y': -records[i].relationship.properties._center_point[1], 'level': levelSecond}
         if (i > 0) {
           let prevCoord = final_res[i-1]
           let distance1 = utils.calcDistance(prevCoord, firstCoord)
@@ -153,8 +162,20 @@ GraphDb.prototype.getShortestRoute = function(buildingId, source_id, leaf_id, ca
         }
 
       }
+      // if (records[records.length - 1].end.properties._center_point[2] < 4.0){
+      //     let levelLast = 0
+      //   } else {
+      //     let levelLast = 1
+      // }
 
-      let lastCoord = {'x': records[records.length - 1].end.properties._center_point[0], 'y': -records[records.length - 1].end.properties._center_point[1]}
+      let levelLast = 0
+        if (records[records.length - 1].end.properties._center_point[2] > 4.0){
+          levelLast = 1
+        }
+
+      let lastCoord = {'x': records[records.length - 1].end.properties._center_point[0], 'y': -records[records.length - 1].end.properties._center_point[1], 'level': levelLast}
+
+
 
       final_res.push(lastCoord)
 
