@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import SvgViewPort from '../../components/SvgViewPort/SvgViewPort';
 import FloorControl from '../../components/FloorControl/FloorControl';
 import DimensionControl from '../../components/DimensionControl/DimensionControl';
+import AlgoControl from '../../components/AlgoControl/AlgoControl';
 import MultipleControl from '../../components/MultipleControl/MultipleControl';
 import Sidebar from '../../components/Sidebar/Sidebar';
 import SpaceInfo from '../../components/SpaceInfo/SpaceInfo';
@@ -77,6 +78,10 @@ class SvgViewer extends Component {
 
   setMultiple = (e) => {
     this.props.setMultiple(!this.props.multiple);
+  }
+
+  setAlgo = (algo, e) => {
+    this.props.setAlgo(algo);
   }
 
   toggleSidebarHandler = (e) => {
@@ -186,6 +191,10 @@ class SvgViewer extends Component {
           dimension={this.props.dimension}
           multiple={this.props.multiple}
           handleClick={this.selectDimension}/>
+        <AlgoControl
+          options={['Dijkstra','BFS']}
+          algo={this.props.algo}
+          handleClick={this.setAlgo}/>
         {this.props.dimension === 3 &&
           <MultipleControl
             multiple={this.props.multiple}
@@ -209,7 +218,8 @@ const mapStateToProps = state => ({
   multiple: state.map.multiple,
   building: state.map.building,
   currentSpace: state.map.space,
-  path: state.map.path
+  path: state.map.path,
+  algo: state.map.algo
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -218,7 +228,8 @@ const mapDispatchToProps = dispatch => ({
   setMultiple: mapActions.setMultiple(dispatch),
   setDimension: mapActions.setDimension(dispatch),
   setCurrentSpace: mapActions.setCurrentSpace(dispatch),
-  findPath: mapActions.findPath(dispatch)
+  findPath: mapActions.findPath(dispatch),
+  setAlgo: mapActions.setAlgo(dispatch)
 });
 
 export default connect(

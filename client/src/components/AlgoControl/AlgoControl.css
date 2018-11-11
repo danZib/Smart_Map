@@ -1,0 +1,29 @@
+.AlgoButtonControl {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  bottom: 20px;
+  left: 160px;
+  transition: transform 0.3s ease-out;
+}
+
+:global(.ui.circular.button).AlgoButton {
+  height: 40px;
+  margin-right: 10px;
+  background-color: #FFF;
+  outline:0;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.2), 0 2px 8px 0 rgba(0, 0, 0, 0.19);
+}
+
+:global(.ui.circular.button).AlgoButton:hover {
+  background-color: #dee2e6;
+  cursor: pointer;
+}
+
+:global(.ui.circular.button).Active {
+  background-color: #dee2e6;
+}
+
+.Move {
+  transform: translateX(330px);
+}

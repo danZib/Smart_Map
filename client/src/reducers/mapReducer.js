@@ -2,7 +2,8 @@ export function mapReducer(state = {
 	isLoading: false, 
 	dimension:2, 
 	floor:0, 
-	multiple:false, 
+	multiple:false,
+	algo: 'Dijkstra',
 	space:{'attributes': {}, 'globalId': '', 'subSystems': [], 'workOrders': []}}, action) {
 
 	switch(action.type){
@@ -51,6 +52,12 @@ export function mapReducer(state = {
 		return{
 			...state,
 			path:action.path
+		}
+
+	case 'SET_ALGO':
+		return{
+			...state,
+			algo:action.algo
 		}
 
 	default:

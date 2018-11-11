@@ -25,7 +25,6 @@ class SvgViewPort extends Component {
         if (this.props.svgLayers[layerType]['isTransparent'] && !(this.props.svgLayers[layerType]['exceptions'].includes(ifcElement.global_id))) {
           classes.push('Transparent')
         }
-        console.log(ifcElement);
         //TODO: highlight doors or spaces?
         if(ifcElement.global_id =='04Sq57eS5FffNezn2ilgt8' || ifcElement.global_id == '04Sq57eS5FffNezn2ilgC_' || ifcElement.global_id == '06njXbG3HC4RydTXssDqW$' || ifcElement.global_id == '06njXbG3HC4RydTXssDq$2'){
           

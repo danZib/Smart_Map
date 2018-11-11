@@ -32,6 +32,12 @@ export function setDimension(dispatch){
 	}
 }
 
+export function setAlgo(dispatch){
+	return function(algo){
+		dispatch( {type: 'SET_ALGO', algo:algo });
+	}
+}
+
 export function setCurrentSpace(dispatch){
 	return function(spaceGuid, buildingId = '27TOPmxCrDgPimmYFfwtvE'){
 		if(spaceGuid != null){

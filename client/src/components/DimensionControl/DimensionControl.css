@@ -22,6 +22,6 @@
   cursor: pointer;
 }
 
-:global(.ui.circular.button).Active {
+:global(.ui.circular.icon.button).Active {
   background-color: #dee2e6;
 }
