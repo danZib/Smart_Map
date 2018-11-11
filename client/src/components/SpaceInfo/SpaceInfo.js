@@ -9,7 +9,7 @@ class SpaceInfo extends Component {
 
   render() {
     const {space, handleSpacePanoramaClick, handleSpaceRouteClick} = {...this.props};
-    const spaceAttributes = Object.keys(space.attributes)
+    const spaceAttributes = space ? Object.keys(space)
        .filter((propKey) => {
         if (propKey.startsWith('_')) {
           return false;
@@ -18,15 +18,15 @@ class SpaceInfo extends Component {
         }
        })
        .reduce((attr, key) => {
-        attr[key] = space.attributes[key];
+        attr[key] = space[key];
         return attr;
-       }, {})
+       }, {}) : {}
 
     return (
       <div className={styles.Container}>
         <SpaceImage
-          imageFileName={space.attributes['_image_file_name'] ? space.attributes['_image_file_name'] : ''}/>
-        <SpaceTitle spaceName={space.attributes['ifc_name']}/>
+          imageFileName={space['_image_file_name'] ? space['_image_file_name'] : ''}/>
+        <SpaceTitle spaceName={space['ifc_name']}/>
         <SpaceControl
           handlePanoramaClick={handleSpacePanoramaClick}
           handleRouteClick={handleSpaceRouteClick}/>

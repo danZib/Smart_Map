@@ -4,3 +4,13 @@ body , html{
   font-family: sans-serif;
   height: 100%;
 }
+
+.map-container:before,
+.map-container:after {
+    content: "";
+    display: block;
+} 
+
+.map-container:after {
+    clear: both;
+}

@@ -98,7 +98,7 @@ class SvgViewer extends Component {
   }
 
   selectSpaceHandler = (spaceGuid, e) => {
-    if(this.props.currentSpace.globalId !== spaceGuid){
+    if(this.props.currentSpace == null || this.props.currentSpace.globalId !== spaceGuid){
       this.props.setCurrentSpace(spaceGuid);
       this.setState({openSidebar: true});
     } 
@@ -114,6 +114,10 @@ class SvgViewer extends Component {
   }
 
   viewSpaceRouteHandler = (e) => {
+
+    this.props.findPath('04Sq57eS5FffNezn2ilgC_', this.props.currentSpace.data.ifc_global_id);
+
+
     this.setState((prevState) => {
       return {routeCoordinates: [{'x': 1.5, 'y': 16.0}, {'x': 3.5, 'y': 16.0}, {'x': 3.5, 'y': 12.0}]}
     })
@@ -147,10 +151,10 @@ class SvgViewer extends Component {
 
     let spaceSidebarContent = null;
 
-    if (selectedSpace.globalId !== '') {
+    if (this.props.currentSpace.globalId !== '') {
       spaceSidebarContent = (
         <SpaceInfo
-          space={selectedSpace}
+          space={this.props.currentSpace.data}
           handleSpacePanoramaClick={this.viewSpacePanoramaHandler}
           handleSpaceRouteClick={this.viewSpaceRouteHandler}/>
       );
@@ -212,7 +216,8 @@ const mapStateToProps = state => ({
   floor: state.map.floor,
   multiple: state.map.multiple,
   building: state.map.building,
-  currentSpace: state.map.space
+  currentSpace: state.map.space,
+  path: state.map.path
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -220,7 +225,8 @@ const mapDispatchToProps = dispatch => ({
   setFloor: mapActions.setFloor(dispatch),
   setMultiple: mapActions.setMultiple(dispatch),
   setDimension: mapActions.setDimension(dispatch),
-  setCurrentSpace: mapActions.setCurrentSpace(dispatch)
+  setCurrentSpace: mapActions.setCurrentSpace(dispatch),
+  findPath: mapActions.findPath(dispatch)
 });
 
 export default connect(

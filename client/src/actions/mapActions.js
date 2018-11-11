@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+const basepath = '/api/building/27TOPmxCrDgPimmYFfwtvE/'
 export function getBuilding(dispatch){
 	return function(buildingId = '27TOPmxCrDgPimmYFfwtvE'){
 		axios.get('api/building/'+buildingId+'/svg')
@@ -35,8 +36,8 @@ export function setCurrentSpace(dispatch){
 	return function(spaceGuid, buildingId = '27TOPmxCrDgPimmYFfwtvE'){
 		if(spaceGuid != null){
 		    axios.get(`api/building/${buildingId}/space/${spaceGuid}`)
-		    .then((spaceRes) => {
-		    	dispatch({type: 'SET_SPACE', space: spaceRes})
+		    .then((result) => {
+		    	dispatch({type: 'SET_SPACE', space: result})
 		    })
 		    .catch((err) => {
 		      console.log(err);
@@ -44,5 +45,17 @@ export function setCurrentSpace(dispatch){
 		}else{
 			dispatch({type: 'SET_SPACE', space: null})
 		}
+	}
+}
+
+export function findPath(dispatch){
+	return function(sourceId, leafId, buildingId = '27TOPmxCrDgPimmYFfwtvE'){
+		axios.get(`api/building/${buildingId}/path/${sourceId}/${leafId}`)
+		.then((result) => {
+			dispatch({type: 'SET_PATH', path: result.data})
+		})
+		.catch((err) => {
+			console.log(err);
+		})
 	}
 }

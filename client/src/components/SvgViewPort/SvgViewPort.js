@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import {connect} from 'react-redux';
+
 import SvgIfcElement from '../../components/SvgIfcElement/SvgIfcElement';
 import SvgLayer from '../SvgLayer/SvgLayer';
 import styles from './SvgViewPort.css';
@@ -54,8 +56,9 @@ class SvgViewPort extends Component {
       )
     }
 
-    if (routeCoordinates.length > 0) {
+    if (this.props.path && this.props.path.length > 0) {
       const svgArrows = []
+      let routeCoordinates = this.props.path;
       for(let i = 0; i < routeCoordinates.length - 1; i++){
         svgArrows.push(
           <SvgArrow
@@ -103,5 +106,15 @@ class SvgViewPort extends Component {
   };
 }
 
-export default SvgViewPort;
+const mapStateToProps = state => ({
+  path: state.map.path
+});
+
+const mapDispatchToProps = dispatch => ({
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SvgViewPort);
 

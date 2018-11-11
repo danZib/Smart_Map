@@ -1,4 +1,10 @@
-export function mapReducer(state = {isLoading: false, dimension:2, floor:0, multiple:false, space:null}, action) {
+export function mapReducer(state = {
+	isLoading: false, 
+	dimension:2, 
+	floor:0, 
+	multiple:false, 
+	space:{'attributes': {}, 'globalId': '', 'subSystems': [], 'workOrders': []}}, action) {
+
 	switch(action.type){
 	case 'IS_LOADING':
 		return{
@@ -39,6 +45,12 @@ export function mapReducer(state = {isLoading: false, dimension:2, floor:0, mult
 		return{
 			...state, 
 			space:action.space
+		}
+
+	case 'SET_PATH':
+		return{
+			...state,
+			path:action.path
 		}
 
 	default:
