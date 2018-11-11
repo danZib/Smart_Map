@@ -62,6 +62,19 @@ router.get('/svg', async function(req, res) {
   res.json(data)
 });
 
+router.get('/mockweight', function(req, res) {
+  var buildingId = req.params.buildingId;
+  var spaceId = req.params.spaceId;
+
+  db.setWeight(function(err, records) {
+    if (err) {
+      res.send(err);
+    } else {
+      res.json(records);
+    }
+  });
+})
+
 router.get('/space/:spaceId', function(req, res) {
   var buildingId = req.params.buildingId;
   var spaceId = req.params.spaceId;
