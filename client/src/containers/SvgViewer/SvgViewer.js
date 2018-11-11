@@ -28,7 +28,6 @@ class SvgViewer extends Component {
       selectedSpace: {'attributes': {}, 'globalId': '', 'subSystems': [], 'workOrders': []},
       openPanoramaViewer: false,
       photoSphere: {},
-      routeCoordinates: []
     }
   }
 
@@ -51,7 +50,7 @@ class SvgViewer extends Component {
   resetViewer() {
     const selectedSpace = this.initSelectedSpace();
     const currentLocation = this.initCurrentLocation();
-    this.setState({floor: {'level': NaN, 'elements': [], 'viewBox': []}, currentLocation: currentLocation, selectedSpace: selectedSpace, openSidebar: false, routeCoordinates: []});
+    this.setState({floor: {'level': NaN, 'elements': [], 'viewBox': []}, currentLocation: currentLocation, selectedSpace: selectedSpace, openSidebar: false});
   }
 
   getSpacePanorama() {
@@ -114,13 +113,7 @@ class SvgViewer extends Component {
   }
 
   viewSpaceRouteHandler = (e) => {
-
-    this.props.findPath('04Sq57eS5FffNezn2ilgC_', this.props.currentSpace.data.ifc_global_id);
-
-
-    this.setState((prevState) => {
-      return {routeCoordinates: [{'x': 1.5, 'y': 16.0}, {'x': 3.5, 'y': 16.0}, {'x': 3.5, 'y': 12.0}]}
-    })
+    this.props.findPath('06njXbG3HC4RydTXssDqYp', this.props.currentSpace.data.ifc_global_id);
   }
 
   closePanoramaViewerHandler = () => {
