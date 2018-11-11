@@ -123,25 +123,37 @@ GraphDb.prototype.getShortestRoute = function(buildingId, source_id, leaf_id, ca
     .run(
       ` MATCH (ms:IfcSpace { ifc_global_id: '${source_id}' }),(cs:IfcSpace { ifc_global_id: '${leaf_id}' }),
         p=shortestPath((ms)-[:CONNECTED_TO*..15]-(cs))
-        UNWIND nodes(p) AS number
-        unwind relationships(p) as rels
-        RETURN distinct [number, rels]`
+        RETURN p`
     )
     .then(function(results) {
       var records = [];
       results.records.forEach(function(record) {
-        records.push(record._fields[0]);
+        records.push(record._fields[0].segments);
       });
       session.close();
-
       let final_res = []
-      for (let i = 0; i < records.length; i = i + 3){
-        final_res.push({'x': records[i][0].properties._center_point[0],
-            'y': -records[i][0].properties._center_point[1]})
-        final_res.push({'x': records[i][1].properties._center_point[0],
-            'y': -records[i][1].properties._center_point[1]})
+      records = records[0]
+      for (let i = 0; i < records.length; i ++) {
 
+        let firstCoord = {'x': records[i].start.properties._center_point[0], 'y': -records[i].start.properties._center_point[1]}
+
+        let secondCoord = {'x': records[i].relationship.properties._center_point[0], 'y': -records[i].relationship.properties._center_point[1]}
+        final_res.push(firstCoord)
+        final_res.push(secondCoord)
       }
+
+      let lastCoord = {'x': records[records.length - 1].end.properties._center_point[0], 'y': -records[records.length - 1].end.properties._center_point[1]}
+
+      final_res.push(lastCoord)
+
+      // let final_res = []
+      // for (let i = 0; i < records.length; i = i + 3){
+      //   final_res.push({'x': records[i][0].properties._center_point[0],
+      //       'y': -records[i][0].properties._center_point[1]})
+      //   final_res.push({'x': records[i][1].properties._center_point[0],
+      //       'y': -records[i][1].properties._center_point[1]})
+
+      // }
 
       callback(null, final_res);
     })

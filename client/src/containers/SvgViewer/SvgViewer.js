@@ -40,7 +40,7 @@ class SvgViewer extends Component {
     return {'show': show, 'x': x, 'y': y}
   }
 
-  initSelectedSpace(attributes ={}, subSystems=[], workOrders=[]) {
+  initSelectedSpace(attributes ={}) {
     let globalId = '';
     if (Object.keys(attributes).length > 0) {
       globalId = attributes['ifc_global_id'];
