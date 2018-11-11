@@ -144,9 +144,9 @@ GraphDb.prototype.getShortestRoute = function(buildingId, source_id, leaf_id, ca
           levelSecond = 1
         }
 
-        let firstCoord = {'x': records[i].start.properties._center_point[0], 'y': -records[i].start.properties._center_point[1], 'level': levelFirst}
+        let firstCoord = {'x': records[i].start.properties._center_point[0], 'y': -records[i].start.properties._center_point[1], 'level': levelFirst, 'guid': records[i].start.properties.ifc_global_id, 'type': 'IfcSpace'}
 
-        let secondCoord = {'x': records[i].relationship.properties._center_point[0], 'y': -records[i].relationship.properties._center_point[1], 'level': levelSecond}
+        let secondCoord = {'x': records[i].relationship.properties._center_point[0], 'y': -records[i].relationship.properties._center_point[1], 'level': levelSecond, 'guid': '', 'type': 'IfcDoor'}
         if (i > 0) {
           let prevCoord = final_res[i-1]
           let distance1 = utils.calcDistance(prevCoord, firstCoord)
@@ -173,9 +173,7 @@ GraphDb.prototype.getShortestRoute = function(buildingId, source_id, leaf_id, ca
           levelLast = 1
         }
 
-      let lastCoord = {'x': records[records.length - 1].end.properties._center_point[0], 'y': -records[records.length - 1].end.properties._center_point[1], 'level': levelLast}
-
-
+      let lastCoord = {'x': records[records.length - 1].end.properties._center_point[0], 'y': -records[records.length - 1].end.properties._center_point[1], 'level': levelLast, 'guid': records[records.length - 1].end.properties.ifc_global_id, 'type': 'IfcSpace'}
 
       final_res.push(lastCoord)
 
