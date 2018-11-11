@@ -59,9 +59,11 @@ class SvgViewPort extends Component {
     if (this.props.path && this.props.path.length > 0) {
       const svgArrows = []
       let routeCoordinates = this.props.path;
+      console.log(routeCoordinates);
       for(let i = 0; i < routeCoordinates.length - 1; i++){
         svgArrows.push(
           <SvgArrow
+          last={i == routeCoordinates.length-2}
           key={i}
           x0={routeCoordinates[i].x}
           y0={routeCoordinates[i].y}
