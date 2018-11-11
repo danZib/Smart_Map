@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import styles from './SvgIfcElement.css';
 
-
-
 class svgIfcElement extends Component {
 
   // shouldComponentUpdate(prevState) {

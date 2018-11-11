@@ -20,3 +20,7 @@
 .Transparent {
   opacity: 0.3;
 }
+
+.Marked{
+	fill: green;
+}

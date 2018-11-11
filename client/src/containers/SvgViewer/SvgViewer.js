@@ -128,7 +128,7 @@ class SvgViewer extends Component {
         )
     }
 
-    const {openSidebar, selectedSpace, photoSphere, openPanoramaViewer, currentLocation, routeCoordinates}  = {...this.state};
+    const {openSidebar, selectedSpace, photoSphere, openPanoramaViewer, currentLocation}  = {...this.state};
     let elements = {}
     let svgLayers = [];
 
@@ -173,8 +173,7 @@ class SvgViewer extends Component {
               svgLayers={layer}
               handleClickOnSpace={this.selectSpaceHandler}
               selectedSpaceId={selectedSpace ? selectedSpace.globalId : ''}
-              currentLocation={currentLocation}
-              routeCoordinates={routeCoordinates}/>
+              currentLocation={currentLocation}/>
           )
           })
         }

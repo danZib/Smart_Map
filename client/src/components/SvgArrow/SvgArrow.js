@@ -2,8 +2,7 @@ import React from 'react';
 
 const svgArrow = (props) => {
 
-  const dString = `M${props.x0},${props.y0} L ${props.x1}, ${props.y1}`
-  console.log(props.last);
+  const dString = `M${props.x0},${props.y0} L ${props.x1}, ${props.y1}` 
   return(
     <g>
     <defs>
