@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router({mergeParams: true});
-
+var utils = require('../utils.js');
 router.get('/', function(req, res) {
   res.send('Hello!');
 });
@@ -76,6 +76,7 @@ router.get('/space/:spaceId', function(req, res) {
 })
 
 router.get('/path/:sourceId/:leafId', function(req, res) {
+
   var buildingId = req.params.buildingId;
   var sourceId = req.params.sourceId;
   var leafId = req.params.leafId;
