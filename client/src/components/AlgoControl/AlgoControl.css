@@ -4,7 +4,7 @@
   position: absolute;
   bottom: 20px;
   left: 160px;
-  transition: transform 0.3s ease-out;
+  transition: all 0.3s ease-out;
 }
 
 :global(.ui.circular.button).AlgoButton {
@@ -25,5 +25,6 @@
 }
 
 .Move {
+  transition: all 0.3s ease-out;
   transform: translateX(330px);
 }

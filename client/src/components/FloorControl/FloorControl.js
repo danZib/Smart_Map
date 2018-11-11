@@ -29,16 +29,24 @@ class floorControl extends React.Component {
   }
 
   render(){
-    let classes = [styles.LevelButton]
+    const activeLevel = {...this.props};
+    let classes = [styles.LevelButton];
     return(
        <div className={styles.LevelButtonControl}>
-        {this.props.building.map((floor, i) => (
+        {this.props.building.map((floor, i) => {;
+          if (floor.level === this.props.floor) {
+            classes.push(styles.Active)
+          }else{
+            classes = [styles.LevelButton];
+          }
+          return(
             <button
               key={i}
               className={`ui circular button ${classes.join(' ')}`}
               onClick={(e)=> this.props.handleClick(floor.level, e)}>{floor.level}</button>
 
-        ))}
+        );})
+      }
       </div>
     ); 
   }

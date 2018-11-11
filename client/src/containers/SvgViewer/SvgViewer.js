@@ -81,7 +81,10 @@ class SvgViewer extends Component {
   }
 
   setAlgo = (algo, e) => {
-    this.props.setAlgo(algo);
+    this.props.setAlgo(algo.toLowerCase());
+    if(this.props.path){
+      this.props.findPath('06njXbG3HC4RydTXssDqYp', this.props.currentSpace.data.ifc_global_id, algo);
+    }
   }
 
   toggleSidebarHandler = (e) => {
@@ -118,7 +121,7 @@ class SvgViewer extends Component {
   }
 
   viewSpaceRouteHandler = (e) => {
-    this.props.findPath('06njXbG3HC4RydTXssDqYp', this.props.currentSpace.data.ifc_global_id);
+    this.props.findPath('06njXbG3HC4RydTXssDqYp', this.props.currentSpace.data.ifc_global_id, this.props.algo);
   }
 
   closePanoramaViewerHandler = () => {
@@ -193,6 +196,7 @@ class SvgViewer extends Component {
           handleClick={this.selectDimension}/>
         <AlgoControl
           options={['Dijkstra','BFS']}
+          openSidebar={openSidebar}
           algo={this.props.algo}
           handleClick={this.setAlgo}/>
         {this.props.dimension === 3 &&

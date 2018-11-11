@@ -6,8 +6,12 @@ const algoControl = (props) => {
   const algoControlButtons = props.options
     .map((option) => {
       let classes = [styles.AlgoButton]
-      if (option === props.algo) {
+      if (option.toLowerCase() === props.algo) {
         classes.push(styles.Active)
+      }
+
+      if (props.openSidebar) {
+        classes.push(styles.Move);
       }
 
       return (

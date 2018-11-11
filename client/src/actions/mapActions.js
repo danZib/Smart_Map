@@ -55,8 +55,8 @@ export function setCurrentSpace(dispatch){
 }
 
 export function findPath(dispatch){
-	return function(sourceId, leafId, buildingId = '27TOPmxCrDgPimmYFfwtvE'){
-		axios.get(`api/building/${buildingId}/path/${sourceId}/${leafId}`)
+	return function(sourceId, leafId, algo, buildingId = '27TOPmxCrDgPimmYFfwtvE'){
+		axios.get(`api/building/${buildingId}/path/${algo}/${sourceId}/${leafId}`)
 		.then((result) => {
 			dispatch({type: 'SET_PATH', path: result.data})
 		})
