@@ -25,14 +25,22 @@ class SvgViewPort extends Component {
         if (this.props.svgLayers[layerType]['isTransparent'] && !(this.props.svgLayers[layerType]['exceptions'].includes(ifcElement.global_id))) {
           classes.push('Transparent')
         }
-        /*
-        TODO: highlight doors or spaces?
-        if(this.props.path && ifcElement.ifc_type =='IfcDoor'){
+        console.log(ifcElement);
+        //TODO: highlight doors or spaces?
+        if(ifcElement.global_id =='04Sq57eS5FffNezn2ilgt8' || ifcElement.global_id == '04Sq57eS5FffNezn2ilgC_' || ifcElement.global_id == '06njXbG3HC4RydTXssDqW$' || ifcElement.global_id == '06njXbG3HC4RydTXssDq$2'){
+          
+          /*
           if(JSON.stringify(this.props.path).indexOf(ifcElement.global_id) > -1){
             classes.push('Marked')
           }
+          */
+          classes.push('Stair')
         }
-        */
+
+        if(ifcElement.global_id =='04Sq57eS5FffNezn2ilgtJ'){
+          classes.push('Elevator')
+        }
+        
         //if(this.props.path && ifcElement.ifc_type =='IfcSpace')
         return(
           <SvgIfcElement

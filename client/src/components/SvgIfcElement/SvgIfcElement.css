@@ -21,6 +21,10 @@
   opacity: 0.3;
 }
 
-.Marked{
-	fill: green;
+.Stair{
+	fill: rgba(0,255,0,0.1);
+}
+
+.Elevator{
+	fill: rgba(255, 0, 255, 0.1);
 }
