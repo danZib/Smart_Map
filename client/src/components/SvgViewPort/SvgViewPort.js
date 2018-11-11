@@ -61,16 +61,19 @@ class SvgViewPort extends Component {
       let routeCoordinates = this.props.path;
       console.log(routeCoordinates);
       for(let i = 0; i < routeCoordinates.length - 1; i++){
-        svgArrows.push(
-          <SvgArrow
-          last={i == routeCoordinates.length-2}
-          key={i}
-          x0={routeCoordinates[i].x}
-          y0={routeCoordinates[i].y}
-          x1={routeCoordinates[i + 1].x}
-          y1={routeCoordinates[i + 1].y}
-          color='red'/>
-        )
+        if(this.props.svgLayers.Floorplan.level === routeCoordinates[i].level){
+          svgArrows.push(
+            <SvgArrow
+            last={i == routeCoordinates.length-2}
+            key={i}
+            x0={routeCoordinates[i].x}
+            y0={routeCoordinates[i].y}
+            x1={routeCoordinates[i + 1].x}
+            y1={routeCoordinates[i + 1].y}
+            color='red'/>
+          )
+        }
+
       }
       svgLayers.push(
         <SvgLayer
