@@ -103,7 +103,7 @@ class SvgViewPort extends Component {
     if(this.props.dimension===3 && this.props.multiple){
       //translateY('+this.props.svgLayers.Floorplan.level*200+'px)
       divStyle = {
-        transform: 'perspective(1500px) rotateX(65deg) translateZ('+this.props.svgLayers.Floorplan.level*300+'px)'
+        transform: 'perspective(2000px) rotateX(65deg) translateZ('+this.props.svgLayers.Floorplan.level*350+'px) translateY(200px)'
       };
     }
 
@@ -119,6 +119,7 @@ class SvgViewPort extends Component {
       , '');  
     }
     */
+    /*
     let d = [];
     if(this.props.routeCoordinates){
       let routeCoordinates = this.props.routeCoordinates;
@@ -130,9 +131,7 @@ class SvgViewPort extends Component {
         }
       }
     }
-
-    console.log("*''***************'")
-    console.log(d);
+    */
     return(
       <div className="map-container">
         <svg
